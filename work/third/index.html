@@ -26,6 +26,15 @@
     <script>
       // 今回やるのはタブメニューです。
       // navの小要素であるliをクリックして、contents内の小要素であるli要素を表示させる。
+      $(function() {
+        $('.nav li').click(function(){
+          $('.contents li').addClass('is-hidden') //is-hiddenを追加して全て非表示に
+          
+          let index = $(this).index(); //要素番号を取得
+          let result = $('.contents li').eq(index) //インデックス要素を指定
+          $(result).removeClass('is-hidden'); //is-hiddenを削除して表示する
+        });
+      });
       // .index() 要素のindexを取得します。
       // .eq() 引数に応じたindexの要素を指定します。
       // .addClass() クラスを追加します。
