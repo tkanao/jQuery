@@ -89,8 +89,32 @@
       // [処理の流れ]
       // ・セレクトボックスをクリックする。
       // ・セレクトボックスのvalueとliのdata-category-typeが一致しているものをだけ表示させる。
+      //　　　⇒セレクトボックスの値の変更をキャッチして .change() 、valueを取得 .val()
+      //　　　⇒取得したvalueとdata-category-typeが一致するか？
       // ・Allを選択した場合のみ全てのliを表示させる。
       // ・処理は関数化し、クリックしたら用意した関数を呼び出すようにしてください。
+      $(function(){
+        $('.select').change(function(){
+          //変更したセレクトボックスの値を取得
+          const select = $(this).val();
+
+          //articleに対して１つずつ処理していく
+          $('.list li').each(function(index, element){
+            const categoryType = $(element).data('category-type');
+
+            // セレクトボックスの値と一致するなら表示する
+            if (select === 'all') {
+              return $(element).show();
+            } else if (select === categoryType) {
+              return $(element).show();
+              console.log(element);
+            } else {
+              return $(element).hide();
+            }
+          });
+        });
+      });
+
       // [使うメソッド]
       // .show() 要素を表示させる
       // .hide() 要素を隠す
