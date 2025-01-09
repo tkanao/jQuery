@@ -93,6 +93,7 @@
       //　　　⇒取得したvalueとdata-category-typeが一致するか？
       // ・Allを選択した場合のみ全てのliを表示させる。
       // ・処理は関数化し、クリックしたら用意した関数を呼び出すようにしてください。
+
       $(function(){
         $('.select').change(function(){
           //変更したセレクトボックスの値を取得
@@ -107,7 +108,6 @@
               return $(element).show();
             } else if (select === categoryType) {
               return $(element).show();
-              console.log(element);
             } else {
               return $(element).hide();
             }
