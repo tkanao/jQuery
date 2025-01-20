@@ -15,7 +15,103 @@
   </div>
   <script src="../../common/js/jquery.js"></script>
   <script>
-    // 回答はここに書いてね
+  // 回答はここに書いてね
+  $(function(){
+      
+    // 「ポケモンを探す」後の画面表示
+    const encountHtml =
+    `
+    <p class="name"></p>
+    <div>
+      <img class="img" id="pokemon_image" src="" alt="">
+      </div>
+      <div>
+        <button class="btn" id="catch">捕まえる</button>
+        <button class="btn" data-js="reset">逃げる</button>
+        </div>
+        `
+
+    // 「捕まえる」失敗時の画面表示
+    const failHtml =
+    `
+    <p class="text">逃げられてしまった...</p>
+    <button class="btn mt" data-js="reset">戻る</button>
+    `
+        
+    // 「捕まえる」成功時の画面表示
+    const doneHtml =
+    `
+    <p class="name">ゲットしました</p>
+    <div>
+      <img class="img" src="" alt="">
+      </div>
+      <button class="btn" data-js="reset">戻る</button>
+      `
+
+    //逃げる
+    const runAway =
+    `
+    <button type="button" class="btn search-btn" id="pokemon_search">ポケモンを探す</button>
+    `
+
+    //API通信失敗
+    const failApi = 
+    `
+    <p>しばらくして再度お試しください</p>
+    `
+
+    $('#wrapper').on('click', '#pokemon_search', function(){
+      $('#wrapper').html(encountHtml);
+      
+      const pokemonNumber = Math.floor(Math.random() * 151) + 1;
+      $.ajax({
+          url:`https://pokeapi.co/api/v2/pokemon/${pokemonNumber}`,
+          method:'GET',
+        }).done(function(pokemonData) {
+          const pokemonImage = pokemonData.sprites.front_default;
+          $('img').attr('src', pokemonImage);
+
+          $.ajax({
+            url:`https://pokeapi.co/api/v2/pokemon-species/${pokemonNumber}`,
+            method:'GET',
+          }).done(function(speciesData) {
+          const pokemonName = speciesData.names.find(nameObj => nameObj.language.name === 'ja').name;
+
+          $('.name').text(pokemonName);
+        }).fail(function(err) {
+          $('#wrapper').html(failApi);
+        });
+      });
+
+    //捕まえるファンクション
+    $('#catch').click(function(){
+      const r = Math.floor(Math.random() * 2);
+      //成功したとき
+      if (r === 0) {
+        $('#wrapper').html(doneHtml);
+
+      $.ajax({
+        url:'https://pokeapi.co/api/v2/item/4',
+        method:'GET',
+      }).done(function(boll) {
+        const monsterBoll = boll.sprites.default
+        $('img').attr('src', monsterBoll);
+
+      }).fail(function(err) {
+        $('#wrapper').html(failApi);
+      });
+      } else {
+        //失敗したとき
+        $('#wrapper').html(failHtml);
+      }
+    });
+
+    //逃げる
+    $('#wrapper').on('click', '[data-js="reset"]', function(){
+        $('#wrapper').html(runAway);
+      });
+    });
+  });
   </script>
 </body>
 </html>
