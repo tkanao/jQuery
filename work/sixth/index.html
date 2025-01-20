@@ -90,10 +90,6 @@
           url:'https://pokeapi.co/api/v2/item/4',
           method:'GET',
         }).done(function(boll) {
-          
-          console.log(boll.sprites.default);
-          console.log('https://pokeapi.co/api/v2/item/4');
-
           const monsterBoll = boll.sprites.default
           $('img').attr('src', monsterBoll);
 
