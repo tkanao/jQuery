@@ -17,7 +17,7 @@
   <script>
   // 回答はここに書いてね
   $(function(){
-    
+      
     // 「ポケモンを探す」後の画面表示
     const encountHtml =
     `
@@ -54,6 +54,12 @@
     <button type="button" class="btn search-btn" id="pokemon_search">ポケモンを探す</button>
     `
 
+    //API通信失敗
+    const failApi = 
+    `
+    <p>しばらくして再度お試しください</p>
+    `
+
     $('#wrapper').on('click', '#pokemon_search', function(){
       $('#wrapper').html(encountHtml);
       
@@ -73,7 +79,7 @@
 
           $('.name').text(pokemonName);
         }).fail(function(err) {
-          console.log('データ取得失敗');
+          $('#wrapper').html(failApi);
         });
       });
 
@@ -92,21 +98,20 @@
         $('img').attr('src', monsterBoll);
 
       }).fail(function(err) {
-        console.log('ボールデータ取得失敗');
+        $('#wrapper').html(failApi);
       });
       } else {
-      //失敗したとき
-      $('#wrapper').html(failHtml);
-    }
+        //失敗したとき
+        $('#wrapper').html(failHtml);
+      }
     });
 
     //逃げる
     $('#wrapper').on('click', '[data-js="reset"]', function(){
-      $('#wrapper').html(runAway);
+        $('#wrapper').html(runAway);
+      });
     });
   });
-});
-
   </script>
 </body>
 </html>
